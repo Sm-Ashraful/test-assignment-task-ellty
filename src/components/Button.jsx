@@ -1,10 +1,7 @@
+import PropTypes from "prop-types";
 import { useEffect } from "react";
 
-const Button = () => {
-  const handleButtonClick = () => {
-    // Include 'event' parameter
-  };
-
+const Button = ({ handleClick }) => {
   useEffect(() => {
     const buttons = document.querySelectorAll(".btn");
     buttons.forEach((button) => {
@@ -18,10 +15,14 @@ const Button = () => {
   }, []);
 
   return (
-    <button onClick={handleButtonClick} className="btn">
+    <button onClick={handleClick} className="btn">
       Done
     </button>
   );
+};
+
+Button.propTypes = {
+  handleClick: PropTypes.func,
 };
 
 export default Button;

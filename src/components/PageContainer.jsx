@@ -61,6 +61,9 @@ const PageContainer = ({
     if (activePages.length === 6) {
       setButtonState("active");
     }
+    if (activePages.length === 0) {
+      setButtonState("default");
+    }
   }, [activePages]);
 
   // console.log("Active pages: ", activePages);
@@ -74,7 +77,7 @@ const PageContainer = ({
       // onMouseUp={handleMouseUp}
       onClick={handleClick}
     >
-      <p className="capitalize">{title}</p>
+      <p className="title">{title}</p>
       <span className="icon-container">
         <img
           src={

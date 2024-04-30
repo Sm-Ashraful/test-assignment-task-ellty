@@ -6,13 +6,7 @@ import variant4Icon from "../assets/variant4.svg";
 import variant5Icon from "../assets/variant5.svg";
 import { useEffect, useState } from "react";
 
-const AllPageContainer = ({
-  title,
-  selectAllPage,
-  handleAllSelectPage,
-  activePages,
-  // setActivePages,
-}) => {
+const AllPageContainer = ({ title, handleAllSelectPage, activePages }) => {
   const [buttonState, setButtonState] = useState("default");
 
   const handleMouseEnter = () => {
@@ -33,7 +27,6 @@ const AllPageContainer = ({
   };
 
   const handleMouseDown = () => {
-    console.log("Mouse down btn state: ", buttonState);
     if (buttonState === "isActive") {
       setButtonState("active");
     } else {
@@ -42,30 +35,26 @@ const AllPageContainer = ({
   };
 
   const handleClick = () => {
-    console.log("handleClick state: ", buttonState);
-    handleAllSelectPage();
     if (buttonState === "active") {
       setButtonState("hover");
     } else {
       setButtonState("isActive");
     }
+    handleAllSelectPage();
   };
 
   useEffect(() => {
-    if (selectAllPage) {
-      setButtonState("active");
-    } else {
+    if (buttonState === "default") {
+      if (activePages.length === 6) {
+        setButtonState("active");
+      } else {
+        setButtonState("default");
+      }
+    }
+    if (activePages.length === 0) {
       setButtonState("default");
     }
-  }, [selectAllPage]);
-
-  useEffect(() => {
-    if (activePages.length === 6) {
-      setButtonState("active");
-    } else {
-      setButtonState("default");
-    }
-  }, [activePages.length]);
+  }, [activePages.length, buttonState]);
 
   return (
     <div
@@ -73,10 +62,9 @@ const AllPageContainer = ({
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       onMouseDown={handleMouseDown}
-      // onMouseUp={handleMouseUp}
       onClick={handleClick}
     >
-      <p className="capitalize">{title}</p>
+      <p className="title">{title}</p>
       <span className="icon-container">
         <img
           src={

@@ -3,6 +3,7 @@ import Button from "./components/Button";
 import Line from "./components/Line";
 import PageContainer from "./components/PageContainer";
 import AllPageContainer from "./components/AllPageContainer";
+import toast, { Toaster } from "react-hot-toast";
 
 const pageTitles = ["page 1", "page 2", "page 3", "page 4", "page 5", "page 6"];
 
@@ -26,6 +27,13 @@ function App() {
     } else {
       setActivePages([...activePages, pageTitle]);
     }
+  };
+
+  const handleClick = (e) => {
+    e.preventDefault();
+    toast.success(`Selected Item is: ${activePages.map((item) => item)}`);
+    setActivePages([]);
+    setSelectAllPage(false);
   };
 
   useEffect(() => {
@@ -59,9 +67,10 @@ function App() {
         </div>
         <Line />
         <div className="btn-container">
-          <Button />
+          <Button handleClick={handleClick} />
         </div>
       </div>
+      <Toaster position="top-center" reverseOrder={false} />
     </section>
   );
 }

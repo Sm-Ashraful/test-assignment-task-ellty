@@ -108,3 +108,7 @@ section {
   height: 23px;
   border-radius: 6px;
 }
+
+.title {
+  text-transform: capitalize;
+}
