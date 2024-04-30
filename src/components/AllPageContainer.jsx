@@ -44,7 +44,7 @@ const AllPageContainer = ({ title, handleAllSelectPage, activePages }) => {
   };
 
   useEffect(() => {
-    if (buttonState === "default") {
+    if (buttonState === "default" || buttonState === "active") {
       if (activePages.length === 6) {
         setButtonState("active");
       } else {

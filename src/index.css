@@ -55,11 +55,12 @@ section {
   width: 100%;
   padding: 10px 15px;
 
-  gap: 10px;
+  /* gap: 10px; */
 }
 .line {
-  width: 340px;
-  border: 0.7px solid #cdcdcd;
+  height: 0;
+  border-top: 0.7px solid #cdcdcd;
+  opacity: 1;
 }
 
 .page-container {

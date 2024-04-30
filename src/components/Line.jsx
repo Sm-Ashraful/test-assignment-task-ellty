@@ -1,7 +1,7 @@
 const Line = () => {
   return (
     <div className="line-dropdown">
-      <div className="line" />
+      <p className="line" />
     </div>
   );
 };
