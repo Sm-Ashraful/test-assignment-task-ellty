@@ -6,11 +6,11 @@ import variant4Icon from "../assets/variant4.svg";
 import variant5Icon from "../assets/variant5.svg";
 import { useEffect, useState } from "react";
 
-const PageContainer = ({
+const AllPageContainer = ({
   title,
-  activePages,
-  handlePageActivation,
   selectAllPage,
+  handleAllSelectPage,
+  activePages,
   // setActivePages,
 }) => {
   const [buttonState, setButtonState] = useState("default");
@@ -33,6 +33,7 @@ const PageContainer = ({
   };
 
   const handleMouseDown = () => {
+    console.log("Mouse down btn state: ", buttonState);
     if (buttonState === "isActive") {
       setButtonState("active");
     } else {
@@ -41,7 +42,8 @@ const PageContainer = ({
   };
 
   const handleClick = () => {
-    handlePageActivation(title);
+    console.log("handleClick state: ", buttonState);
+    handleAllSelectPage();
     if (buttonState === "active") {
       setButtonState("hover");
     } else {
@@ -60,10 +62,10 @@ const PageContainer = ({
   useEffect(() => {
     if (activePages.length === 6) {
       setButtonState("active");
+    } else {
+      setButtonState("default");
     }
-  }, [activePages]);
-
-  // console.log("Active pages: ", activePages);
+  }, [activePages.length]);
 
   return (
     <div
@@ -94,11 +96,11 @@ const PageContainer = ({
     </div>
   );
 };
-PageContainer.propTypes = {
+AllPageContainer.propTypes = {
   title: PropTypes.string,
   activePages: PropTypes.array,
   selectAllPage: PropTypes.bool,
-  handlePageActivation: PropTypes.func,
+  handleAllSelectPage: PropTypes.func,
 };
 
-export default PageContainer;
+export default AllPageContainer;

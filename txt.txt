@@ -1,0 +1,272 @@
+All Page Container:
+import PropTypes from "prop-types";
+import defaultIcon from "../assets/default.svg";
+import variant2Icon from "../assets/variant2.svg";
+import variant3Icon from "../assets/variant3.svg";
+import variant4Icon from "../assets/variant4.svg";
+import variant5Icon from "../assets/variant5.svg";
+import { useEffect, useState } from "react";
+
+const AllPageContainer = ({
+  title,
+  selectAllPage,
+  handleAllSelectPage,
+  activePages,
+  // setActivePages,
+}) => {
+  const [buttonState, setButtonState] = useState("default");
+
+  useEffect(() => {
+    if (!selectAllPage || activePages.length < 6) {
+      setButtonState("default");
+    }
+    if (activePages.length === 6) {
+      setButtonState("active");
+    }
+  }, [selectAllPage, activePages.length]);
+
+  const handleMouseEnter = () => {
+    if (buttonState === "active") {
+      setButtonState("isActive");
+    } else {
+      setButtonState("hover");
+    }
+  };
+
+  const handleMouseLeave = () => {
+    if (buttonState !== "active") {
+      setButtonState("default");
+    }
+    if (buttonState === "isActive") {
+      setButtonState("active");
+    }
+  };
+
+  const handleMouseDown = () => {
+    if (buttonState === "isActive") {
+      setButtonState("active");
+    } else {
+      setButtonState("activating");
+    }
+  };
+
+  const handleClick = () => {
+    handleAllSelectPage();
+    if (buttonState === "active") {
+      setButtonState("hover");
+    } else {
+      setButtonState("isActive");
+    }
+  };
+
+  return (
+    <div
+      className="home"
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+      onMouseDown={handleMouseDown}
+      // onMouseUp={handleMouseUp}
+      onClick={handleClick}
+    >
+      <p className="capitalize">{title}</p>
+      <span className="icon-container">
+        <img
+          src={
+            buttonState === "hover"
+              ? variant2Icon
+              : buttonState === "activating"
+              ? variant3Icon
+              : buttonState === "isActive"
+              ? variant4Icon
+              : buttonState === "active"
+              ? variant5Icon
+              : defaultIcon
+          }
+          alt="default image"
+        />
+      </span>
+    </div>
+  );
+};
+AllPageContainer.propTypes = {
+  title: PropTypes.string,
+  activePages: PropTypes.array,
+  selectAllPage: PropTypes.func,
+  handleAllSelectPage: PropTypes.func,
+};
+
+export default AllPageContainer;
+
+
+//App.js
+import { useEffect, useState } from "react";
+import Button from "./components/Button";
+import Line from "./components/Line";
+import PageContainer from "./components/PageContainer";
+import AllPageContainer from "./components/AllPageContainer";
+
+const pageTitles = ["page 1", "page 2", "page 3", "page 4", "page 5", "page 6"];
+
+function App() {
+  const [activePages, setActivePages] = useState([]);
+  const [selectAllPage, setSelectAllPage] = useState(false);
+
+  const handleAllSelectPage = () => {
+    if (activePages.length === pageTitles.length) {
+      setActivePages([]);
+      setSelectAllPage(false);
+    } else {
+      setActivePages([...pageTitles]);
+      setSelectAllPage(true);
+    }
+  };
+
+  const handlePageActivation = (pageTitle) => {
+    if (activePages.includes(pageTitle)) {
+      setActivePages(activePages.filter((page) => page !== pageTitle));
+    } else {
+      setActivePages([...activePages, pageTitle]);
+    }
+  };
+
+  useEffect(() => {
+    if (activePages.length === pageTitles.length) {
+      setSelectAllPage(true);
+    }
+  }, [activePages]);
+
+  return (
+    <section>
+      <div className="container">
+        <div>
+          <AllPageContainer
+            title={"all pages"}
+            activePages={activePages}
+            handleAllSelectPage={handleAllSelectPage}
+            selectAllPage={selectAllPage}
+          />
+        </div>
+        <Line />
+        <div className="page-container">
+          {pageTitles.map((title, i) => (
+            <PageContainer
+              key={i}
+              title={title}
+              activePages={activePages}
+              handlePageActivation={handlePageActivation}
+              selectAllPage={selectAllPage}
+            />
+          ))}
+        </div>
+        <Line />
+        <div className="btn-container">
+          <Button />
+        </div>
+      </div>
+    </section>
+  );
+}
+
+export default App;
+
+
+//page container
+import PropTypes from "prop-types";
+import defaultIcon from "../assets/default.svg";
+import variant2Icon from "../assets/variant2.svg";
+import variant3Icon from "../assets/variant3.svg";
+import variant4Icon from "../assets/variant4.svg";
+import variant5Icon from "../assets/variant5.svg";
+import { useEffect, useState } from "react";
+
+const PageContainer = ({
+  title,
+  // activePages,
+  handlePageActivation,
+  selectAllPage,
+  // setActivePages,
+}) => {
+  const [buttonState, setButtonState] = useState("default");
+
+  useEffect(() => {
+    console.log("select all page: ", selectAllPage);
+    if (selectAllPage) {
+      setButtonState("active");
+    } else {
+      setButtonState("default");
+    }
+  }, [selectAllPage]);
+
+  const handleMouseEnter = () => {
+    if (buttonState === "active") {
+      setButtonState("isActive");
+    } else {
+      setButtonState("hover");
+    }
+  };
+
+  const handleMouseLeave = () => {
+    if (buttonState !== "active") {
+      setButtonState("default");
+    }
+    if (buttonState === "isActive") {
+      setButtonState("active");
+    }
+  };
+
+  const handleMouseDown = () => {
+    if (buttonState === "isActive") {
+      setButtonState("active");
+    } else {
+      setButtonState("activating");
+    }
+  };
+
+  const handleClick = () => {
+    handlePageActivation(title);
+    if (buttonState === "active") {
+      setButtonState("hover");
+    } else {
+      setButtonState("isActive");
+    }
+  };
+
+  // console.log("Active pages: ", activePages);
+
+  return (
+    <div
+      className="home"
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+      onMouseDown={handleMouseDown}
+      // onMouseUp={handleMouseUp}
+      onClick={handleClick}
+    >
+      <p className="capitalize">{title}</p>
+      <span className="icon-container">
+        <img
+          src={
+            buttonState === "hover"
+              ? variant2Icon
+              : buttonState === "activating"
+              ? variant3Icon
+              : buttonState === "isActive"
+              ? variant4Icon
+              : buttonState === "active"
+              ? variant5Icon
+              : defaultIcon
+          }
+          alt="default image"
+        />
+      </span>
+    </div>
+  );
+};
+PageContainer.propTypes = {
+  title: PropTypes.string,
+  activePages: PropTypes.array,
+  selectAllPage: PropTypes.bool,
+  handlePageActivation: PropTypes.func,
+};
+
+export default PageContainer;
